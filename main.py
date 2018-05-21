@@ -47,11 +47,13 @@ def main():
         step = 0
 
     loss_list = []
-    accuracy_list = []
+    train_accuracy_list = []
+    test_accuracy_list = []
     step = 0
 
-    # train_writer = tf.summary.FileWriter('log', sess.graph)
-    # summary_op = tf.summary.merge_all()
+    train_writer = tf.summary.FileWriter('logs/train', sess.graph)
+    test_writer = tf.summary.FileWriter('logs/test', sess.graph)
+    summary_op = tf.summary.merge_all()
 
     print('Start training:')
     for epoch in range(config.num_epochs):
@@ -63,22 +65,22 @@ def main():
             X_train_batch = X_train_data[data_idx: np.clip(data_idx + config.batch_size, 0, dataset.train_len - 1)]
             y_train_batch = y_train_data[data_idx: np.clip(data_idx + config.batch_size, 0, dataset.train_len - 1)]
             data_idx += config.batch_size
-            learning_rate = config.learning_rate if step < 2000 else config.learning_rate / 10
             
-            loss, _, train_accuracy = sess.run([nn.loss, nn.optimizer, nn.accuracy],
-                {nn.X_inputs: X_train_batch, nn.y_inputs: y_train_batch, nn.keep_prob: config.keep_prob, nn.training: True, nn.learning_rate: learning_rate})
+            loss, _, train_accuracy, summary = sess.run([nn.loss, nn.optimizer, nn.accuracy, summary_op],
+                {nn.X_inputs: X_train_batch, nn.y_inputs: y_train_batch, 
+                 nn.keep_prob: config.keep_prob, nn.training: True})
             loss_list.append(loss)
+            train_accuracy_list.append(train_accuracy)
             print('>> At step %i: loss = %.3f, train accuracy = %.3f%%' % (step, loss, train_accuracy * 100))
+            train_writer.add_summary(summary, step)
             step += 1
 
-        accuracy.append(sess.run([nn.accuracy], 
-            {nn.X_inputs: dataset.test_set_X, nn.y_inputs: dataset.test_set_y, nn.keep_prob: 1.0, nn.training: False}))
-        accuracy = np.mean(single_accuracy)
-        accuracy_list.append(accuracy)
-        print('For epoch %i: train accuracy = %.3f%%\n' % (epoch, accuracy * 100))
-
-        # train_writer.add_summary(summary, step)
-        # train_writer.flush(
+        accuracy, summary = sess.run([nn.accuracy, summary_op], 
+            {nn.X_inputs: dataset.test_set_X, nn.y_inputs: dataset.test_set_y,
+             nn.keep_prob: 1.0, nn.training: False})
+        test_accuracy_list.append(accuracy)
+        print('For epoch %i: test accuracy = %.3f%%\n' % (epoch, accuracy * 100))
+        test_writer.add_summary(summary, step)
 
     save_path = saver.save(sess, model_save_path, global_step=step)
     print('Model saved in file: %s' % save_path)

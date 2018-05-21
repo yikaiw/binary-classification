@@ -12,11 +12,14 @@ class Network(object):
         self.training = tf.placeholder(tf.bool)
         self.keep_prob = tf.placeholder(tf.float32)
         self.global_step = tf.Variable(initial_value=0, trainable=False)
-        self.learning_rate = tf.placeholder(tf.float32)
+        self.learning_rate = tf.train.exponential_decay(config.learning_rate, self.global_step, 2e3, 1e-4)
 
         self.logits = self.layers(self.X_inputs)
         self.loss, self.optimizer = self.optimize(self.logits, self.labels)
         self.accuracy = self.get_accuracy(self.logits, self.labels)
+        
+        tf.summary.scalar('loss', self.loss)
+        tf.summary.scalar('accuracy', self.accuracy)
 
     def layers(self, X_inputs):
         layer = tf.layers.conv2d(X_inputs, 32, 3, padding='same', activation=tf.nn.relu)
