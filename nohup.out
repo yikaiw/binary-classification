@@ -1,0 +1,77 @@
+[I 14:40:31.042 NotebookApp] Writing notebook server cookie secret to /run/user/1013/jupyter/notebook_cookie_secret
+[W 14:40:32.217 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[I 14:40:32.244 NotebookApp] Serving notebooks from local directory: /home1/wyk/work/binary-classification
+[I 14:40:32.244 NotebookApp] 0 active kernels 
+[I 14:40:32.244 NotebookApp] The Jupyter Notebook is running at: http://[all ip addresses on your system]:8889/
+[I 14:40:32.244 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[I 14:40:45.780 NotebookApp] 302 GET / (166.111.138.88) 1.04ms
+[I 14:40:45.801 NotebookApp] 302 GET /tree? (166.111.138.88) 1.91ms
+[I 14:40:48.671 NotebookApp] 302 POST /login?next=%2Ftree%3F (166.111.138.88) 1.32ms
+[I 14:41:12.290 NotebookApp] Saving file at /main.py
+[I 14:43:14.171 NotebookApp] Saving file at /reader.py
+[I 14:44:30.220 NotebookApp] Saving file at /reader.py
+[I 14:45:05.777 NotebookApp] Saving file at /main.py
+[I 14:46:40.542 NotebookApp] Saving file at /reader.py
+[I 14:46:55.272 NotebookApp] Saving file at /reader.py
+[I 14:46:59.509 NotebookApp] Saving file at /reader.py
+[I 14:47:02.490 NotebookApp] Saving file at /reader.py
+[I 14:47:50.438 NotebookApp] Saving file at /config.py
+[I 14:47:54.322 NotebookApp] Saving file at /config.py
+[I 14:48:10.884 NotebookApp] Saving file at /main.py
+[I 14:53:01.293 NotebookApp] Saving file at /main.py
+[I 14:53:43.917 NotebookApp] Saving file at /main.py
+[I 14:54:56.150 NotebookApp] Saving file at /main.py
+[I 14:55:31.006 NotebookApp] Saving file at /main.py
+[I 14:55:45.693 NotebookApp] Saving file at /config.py
+[I 14:56:07.335 NotebookApp] Saving file at /main.py
+[I 14:58:08.699 NotebookApp] Saving file at /main.py
+[I 19:31:58.056 NotebookApp] Saving file at /main.py
+[I 19:33:59.735 NotebookApp] Saving file at /main.py
+[I 19:34:23.100 NotebookApp] Saving file at /main.py
+[I 19:35:10.295 NotebookApp] Saving file at /main.py
+[I 19:35:19.933 NotebookApp] Saving file at /config.py
+[I 19:35:28.620 NotebookApp] Saving file at /main.py
+[I 19:37:26.776 NotebookApp] Saving file at /main.py
+[I 19:37:41.345 NotebookApp] Saving file at /main.py
+[I 19:37:58.975 NotebookApp] Saving file at /main.py
+[I 19:38:03.781 NotebookApp] Saving file at /main.py
+[I 19:38:06.655 NotebookApp] Saving file at /main.py
+[I 19:38:15.901 NotebookApp] Saving file at /main.py
+[I 19:38:22.375 NotebookApp] Saving file at /main.py
+[I 19:39:32.176 NotebookApp] Saving file at /main.py
+[I 19:39:37.575 NotebookApp] Saving file at /main.py
+[I 19:40:27.014 NotebookApp] Saving file at /CNN.py
+[I 19:40:28.651 NotebookApp] Saving file at /CNN.py
+[I 19:42:31.015 NotebookApp] Saving file at /CNN.py
+[I 19:43:03.456 NotebookApp] Saving file at /main.py
+[I 19:43:24.056 NotebookApp] Saving file at /main.py
+[I 19:43:54.736 NotebookApp] Saving file at /main.py
+[I 19:46:18.495 NotebookApp] Saving file at /CNN.py
+[I 19:46:44.149 NotebookApp] Saving file at /main.py
+[I 19:48:28.893 NotebookApp] Saving file at /CNN.py
+[I 19:48:51.415 NotebookApp] Saving file at /CNN.py
+[I 19:53:43.055 NotebookApp] Saving file at /main.py
+[I 19:54:11.654 NotebookApp] Saving file at /main.py
+[I 19:55:15.617 NotebookApp] Saving file at /main.py
+[I 19:56:20.263 NotebookApp] Saving file at /main.py
+[I 19:56:24.063 NotebookApp] Saving file at /main.py
+[I 19:56:27.494 NotebookApp] Saving file at /main.py
+[I 19:56:29.335 NotebookApp] Saving file at /main.py
+[I 19:56:36.212 NotebookApp] Saving file at /CNN.py
+[I 19:57:34.690 NotebookApp] Saving file at /config.py
+[I 19:58:13.131 NotebookApp] Saving file at /config.py
+[I 19:58:22.580 NotebookApp] Saving file at /CNN.py
+[I 19:59:59.497 NotebookApp] Saving file at /main.py
+[I 20:03:40.012 NotebookApp] Saving file at /CNN.py
+[I 20:04:03.695 NotebookApp] Saving file at /main.py
+[I 20:04:11.775 NotebookApp] Saving file at /main.py
+[I 20:04:13.695 NotebookApp] Saving file at /main.py
+[I 20:04:25.019 NotebookApp] Saving file at /main.py
+[I 20:04:26.776 NotebookApp] Saving file at /main.py
+[I 20:04:30.016 NotebookApp] Saving file at /main.py
+[I 20:04:39.016 NotebookApp] Saving file at /main.py
+[I 20:05:06.613 NotebookApp] Saving file at /main.py
+[I 20:05:07.492 NotebookApp] Saving file at /main.py
+[I 20:05:46.181 NotebookApp] Saving file at /main.py
+[I 20:06:57.776 NotebookApp] Saving file at /main.py
+[I 20:08:13.419 NotebookApp] Saving file at /main.py

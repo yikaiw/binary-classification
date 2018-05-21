@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 from reader import Reader
 import config
-os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '2'
 
 FLAGS = tf.flags.FLAGS
 tf.flags.DEFINE_string('checkpoint', None, 'Whether use a pre-trained checkpoint, default None.')
@@ -59,32 +59,26 @@ def main():
         X_train_data = dataset.train_set_X[permutation]
         y_train_data = dataset.train_set_y[permutation]
         data_idx = 0
-        while data_idx < dataset.train_len:
+        while data_idx < dataset.train_len - 1:
             X_train_batch = X_train_data[data_idx: np.clip(data_idx + config.batch_size, 0, dataset.train_len - 1)]
             y_train_batch = y_train_data[data_idx: np.clip(data_idx + config.batch_size, 0, dataset.train_len - 1)]
             data_idx += config.batch_size
-
-            loss, train_batch_accuracy, _ = sess.run([nn.loss, nn.batch_accuracy, nn.optimizer],
-                {nn.X_inputs: X_train_batch, nn.y_inputs: y_train_batch, nn.keep_prob: config.keep_prob, nn.training: True})
+            learning_rate = config.learning_rate if step < 2000 else config.learning_rate / 10
+            
+            loss, _, train_accuracy = sess.run([nn.loss, nn.optimizer, nn.accuracy],
+                {nn.X_inputs: X_train_batch, nn.y_inputs: y_train_batch, nn.keep_prob: config.keep_prob, nn.training: True, nn.learning_rate: learning_rate})
             loss_list.append(loss)
+            print('>> At step %i: loss = %.3f, train accuracy = %.3f%%' % (step, loss, train_accuracy * 100))
+            step += 1
 
-            if step % 10 == 0 and step > 0:
-            print('>> At step %i: loss = %.3f, train_batch_accuracy = %.3f%%' % 
-                    (step, loss, train_batch_accuracy * 100))
-
-        
-        accuracy = sess.run([nn.accuracy],  
-            {nn.X_inputs: dataset.test_set_X, nn.y_inputs: dataset.test_set_X, nn.keep_prob: 1.0, nn.training: False})
+        accuracy.append(sess.run([nn.accuracy], 
+            {nn.X_inputs: dataset.test_set_X, nn.y_inputs: dataset.test_set_y, nn.keep_prob: 1.0, nn.training: False}))
+        accuracy = np.mean(single_accuracy)
         accuracy_list.append(accuracy)
+        print('For epoch %i: train accuracy = %.3f%%\n' % (epoch, accuracy * 100))
 
         # train_writer.add_summary(summary, step)
         # train_writer.flush(
-
-        print('For epoch %i: val_epoch_accuracy = %.3f%%\n' % (epoch, accuracy * 100))
-        
-        if step % 1000 == 0 and step > 0:
-            save_path = saver.save(sess, model_save_path, global_step=step)
-            print('Model saved in file: %s' % save_path)
 
     save_path = saver.save(sess, model_save_path, global_step=step)
     print('Model saved in file: %s' % save_path)

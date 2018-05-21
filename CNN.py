@@ -12,7 +12,7 @@ class Network(object):
         self.training = tf.placeholder(tf.bool)
         self.keep_prob = tf.placeholder(tf.float32)
         self.global_step = tf.Variable(initial_value=0, trainable=False)
-        self.learning_rate = tf.train.exponential_decay(config.learning_rate, self.global_step, 2e3, 1e-4)
+        self.learning_rate = tf.placeholder(tf.float32)
 
         self.logits = self.layers(self.X_inputs)
         self.loss, self.optimizer = self.optimize(self.logits, self.labels)
@@ -20,17 +20,15 @@ class Network(object):
 
     def layers(self, X_inputs):
         layer = tf.layers.conv2d(X_inputs, 32, 3, padding='same', activation=tf.nn.relu)
-        # layer = tf.nn.dropout(layer, self.keep_prob)
+        layer = tf.nn.dropout(layer, self.keep_prob)
         layer = tf.layers.max_pooling2d(layer, 2, 2)
 
         layer = tf.layers.conv2d(X_inputs, 64, 3, padding='same', activation=tf.nn.relu)
-        # layer = tf.nn.dropout(layer, self.keep_prob)
+        layer = tf.nn.dropout(layer, self.keep_prob)
         layer = tf.layers.max_pooling2d(layer, 2, 2)
 
         flat = tf.contrib.layers.flatten(layer)
-
-        dense = tf.layers.dense(flat, 128)
-        out = tf.layers.dense(dense, config.class_num)
+        out = tf.layers.dense(flat, config.class_num)
         return out
 
     def optimize(self, logits, labels):
