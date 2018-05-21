@@ -1,4 +1,4 @@
-class_num = 2  # num of classes in the dataset
+class_num = 2 
 batch_size = 16
 img_size = 64
 learning_rate = 0.01

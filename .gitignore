@@ -11,7 +11,7 @@ bin/
 gen/
 build/
 data/
-checkpoints/
+# checkpoints/
 tfrecord/
 __pycache__/
 
