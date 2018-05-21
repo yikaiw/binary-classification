@@ -1,0 +1,9 @@
+class_num = 2  # num of classes in the dataset
+batch_size = 32
+img_size = 64
+learning_rate = 0.01
+beta1 = 0.9  # paramater of Adam
+beta2 = 0.999  # paramater of Adam
+num_epochs = 30
+weight_decay = 0.00005
+keep_prob = 0.8
