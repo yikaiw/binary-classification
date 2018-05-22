@@ -9,6 +9,7 @@ import config
 
 FLAGS = tf.flags.FLAGS
 tf.flags.DEFINE_string('checkpoint', None, 'Whether use a pre-trained checkpoint, default None.')
+tf.flags.DEFINE_string('network', 'CNN', 'Network type seleted from BP, RBF and CNN, default CNN.')
 
 
 def main():
@@ -24,7 +25,7 @@ def main():
             print('Unable to make checkpoints direction: %s' % checkpoint_path)
     model_save_path = os.path.join(checkpoint_path, 'model.ckpt')
 
-    nn = Network()
+    nn = Network(FLAGS.network)
     dataset = Reader()
 
     saver = tf.train.Saver()

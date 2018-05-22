@@ -1,11 +1,10 @@
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
 import config
 
 
 class Network(object):
-    def __init__(self):
+    def __init__(self, network_type):
         self.X_inputs = tf.placeholder(tf.float32, [None, config.img_size, config.img_size, 3])
         self.y_inputs = tf.placeholder(tf.int32, [None])
         self.labels = tf.one_hot(self.y_inputs, config.class_num, axis=1)
@@ -13,23 +12,55 @@ class Network(object):
         self.keep_prob = tf.placeholder(tf.float32)
         self.global_step = tf.Variable(initial_value=0, trainable=False)
         self.learning_rate = tf.train.exponential_decay(config.learning_rate, self.global_step, 2e3, 1e-4)
-
-        self.logits = self.layers(self.X_inputs)
+        
+        if network_type == 'BP':
+            self.logits = self.bp(self.X_inputs)
+        elif network_type == 'RBF':
+            self.logits = self.rbf(self.X_inputs)
+        elif network_type == 'CNN':
+            self.logits = self.cnn(self.X_inputs)
+        
         self.loss, self.optimizer = self.optimize(self.logits, self.labels)
         self.accuracy = self.get_accuracy(self.logits, self.labels)
         
         tf.summary.scalar('loss', self.loss)
         tf.summary.scalar('accuracy', self.accuracy)
+        
+    def bp(self, X_inputs):
+        layer = tf.contrib.layers.flatten(X_inputs)
+        layer = tf.layers.dense(layer, config.hidden_num)
+        layer = tf.layers.batch_normalization(layer, training=self.training)
+        layer = tf.nn.relu(layer)
+        out = tf.layers.dense(layer, config.class_num)
+        return out
+    
+    def rbf(self, X_inputs):
+        layer = tf.contrib.layers.flatten(X_inputs)
+        layer = tf.layers.dense(layer, config.hidden_num)
+        c = 0
+        layer = tf.exp(-config.rbf_gamma * np.abs(layer - c))
+        out = tf.layers.dense(layer, config.class_num)
+        return out
 
-    def layers(self, X_inputs):
-        layer = tf.layers.conv2d(X_inputs, 32, 3, padding='same', activation=tf.nn.relu)
+    def cnn(self, X_inputs):
+        layer = tf.layers.conv2d(X_inputs, 32, 3, padding='same', activation=None)
+        layer = tf.layers.batch_normalization(layer, training=self.training)
+        layer = tf.nn.relu(layer)
         layer = tf.nn.dropout(layer, self.keep_prob)
         layer = tf.layers.max_pooling2d(layer, 2, 2)
-
-        layer = tf.layers.conv2d(X_inputs, 64, 3, padding='same', activation=tf.nn.relu)
+        
+        layer = tf.layers.conv2d(X_inputs, 64, 3, padding='same', activation=None)
+        layer = tf.layers.batch_normalization(layer, training=self.training)
+        layer = tf.nn.relu(layer)
         layer = tf.nn.dropout(layer, self.keep_prob)
         layer = tf.layers.max_pooling2d(layer, 2, 2)
-
+        
+        layer = tf.layers.conv2d(X_inputs, 128, 3, padding='same', activation=None)
+        layer = tf.layers.batch_normalization(layer, training=self.training)
+        layer = tf.nn.relu(layer)
+        layer = tf.nn.dropout(layer, self.keep_prob)
+        layer = tf.layers.max_pooling2d(layer, 2, 2)
+        
         flat = tf.contrib.layers.flatten(layer)
         out = tf.layers.dense(flat, config.class_num)
         return out
